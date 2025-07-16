@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+data/
+data/*
+
+llm/
+
+.env
+
+neusolution.json

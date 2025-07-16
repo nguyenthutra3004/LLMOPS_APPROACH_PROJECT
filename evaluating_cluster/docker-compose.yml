@@ -1,0 +1,26 @@
+version: '3'
+services:
+  evaluator:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./data:/app/data
+      - ./temp:/app/temp   # Add temp directory mapping
+      - ./:/app            # Optional: Mount entire project for development
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1  # Improve logging
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped  # Auto restart policy
+    # Optional: Configure container name
+    container_name: evaluator
